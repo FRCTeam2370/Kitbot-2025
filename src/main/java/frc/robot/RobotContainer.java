@@ -11,6 +11,9 @@ import frc.robot.commands.DriveSpeedSwitcher;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.IndexerForward;
 import frc.robot.commands.IndexerReverse;
+import frc.robot.commands.LowerClimber;
+import frc.robot.commands.RunClimber;
+import frc.robot.subsystems.Climb;
 import frc.robot.subsystems.Drive;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.PieceIndexer;
@@ -29,11 +32,14 @@ public class RobotContainer {
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final PieceIndexer m_PieceIndexer = new PieceIndexer();
   private final Drive m_Drive = new Drive();
+  private final Climb m_Climb = new Climb();
   
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private final CommandXboxController m_operatorController =
+      new CommandXboxController(OperatorConstants.kOperatorControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -61,6 +67,9 @@ public class RobotContainer {
     m_driverController.leftTrigger().whileTrue(new IndexerReverse(m_PieceIndexer));
     m_Drive.setDefaultCommand(new DriveController(m_Drive, () -> m_driverController.getLeftY(), () -> m_driverController.getRightX()));
     m_driverController.a().toggleOnTrue(new DriveSpeedSwitcher(0.4));
+    m_operatorController.rightTrigger().whileTrue(new RunClimber(m_Climb));
+    m_operatorController.leftTrigger().whileTrue(new LowerClimber(m_Climb));
+
   }
 
   /**
