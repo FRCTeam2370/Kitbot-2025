@@ -4,19 +4,22 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class PieceIndexer extends SubsystemBase {
   /** Creates a new PieceIndexer. */
-  public static Spark Indexer = new Spark(0);
+  public static TalonSRX Indexer = new TalonSRX(0);
 
   public static void RunInderxer () {
-    Indexer.set(.2);
+    Indexer.set(ControlMode.PercentOutput, .2);
   }
 
   public static void ReverseIndexer () {
-    Indexer.set(-.2);
+    Indexer.set(ControlMode.PercentOutput, -.2);
   }
 
   public PieceIndexer() {}

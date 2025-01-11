@@ -4,19 +4,22 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Climb extends SubsystemBase {
   /** Creates a new Climb. */
-  public static Spark Climber = new Spark(5);
+  public static TalonSRX Climber = new TalonSRX(5);
 
   public static void RunClimber () {
-    Climber.set(.2);
+    Climber.set(ControlMode.PercentOutput, .2);
   }
 
   public static void LowerClimber () {
-    Climber.set(-.2);
+    Climber.set(ControlMode.PercentOutput, -.2);
   }
 
 

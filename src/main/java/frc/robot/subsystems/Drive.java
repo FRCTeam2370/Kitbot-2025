@@ -4,15 +4,19 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Drive extends SubsystemBase {
-  public static Spark RightDriver = new Spark(1);
-  public static Spark RightPassenger = new Spark(2);
-  public static Spark LeftDriver = new Spark(3);
-  public static Spark LeftPassenger = new Spark(4);
+  public static WPI_TalonSRX RightDriver = new WPI_TalonSRX(1);
+  public static WPI_TalonSRX RightPassenger = new WPI_TalonSRX(2);
+  public static WPI_TalonSRX LeftDriver = new WPI_TalonSRX(3);
+  public static WPI_TalonSRX LeftPassenger = new WPI_TalonSRX(4);
 
   private static DifferentialDrive mDrive = new DifferentialDrive(LeftDriver, RightDriver);
 
@@ -22,8 +26,8 @@ public class Drive extends SubsystemBase {
   }
 
   private static void ConfigureDrive () {
-    RightDriver.addFollower(RightPassenger);
-    LeftDriver.addFollower(LeftPassenger);
+    RightPassenger.follow(RightDriver);
+    LeftPassenger.follow(LeftDriver);
   }
   
   public static void Drive (double XSpeed, double Rotation) {
