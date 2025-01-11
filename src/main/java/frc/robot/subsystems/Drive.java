@@ -13,10 +13,10 @@ import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Drive extends SubsystemBase {
-  public static WPI_TalonSRX RightDriver = new WPI_TalonSRX(1);
-  public static WPI_TalonSRX RightPassenger = new WPI_TalonSRX(2);
-  public static WPI_TalonSRX LeftDriver = new WPI_TalonSRX(3);
-  public static WPI_TalonSRX LeftPassenger = new WPI_TalonSRX(4);
+  public static WPI_TalonSRX RightDriver = new WPI_TalonSRX(0);
+  public static WPI_TalonSRX RightPassenger = new WPI_TalonSRX(1);
+  public static WPI_TalonSRX LeftDriver = new WPI_TalonSRX(2);
+  public static WPI_TalonSRX LeftPassenger = new WPI_TalonSRX(3);
 
   private static DifferentialDrive mDrive = new DifferentialDrive(LeftDriver, RightDriver);
 
@@ -28,6 +28,8 @@ public class Drive extends SubsystemBase {
   private static void ConfigureDrive () {
     RightPassenger.follow(RightDriver);
     LeftPassenger.follow(LeftDriver);
+    LeftDriver.setInverted(true);
+    LeftPassenger.setInverted(true);
   }
   
   public static void Drive (double XSpeed, double Rotation) {

@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class PieceIndexer extends SubsystemBase {
   /** Creates a new PieceIndexer. */
-  public static TalonSRX Indexer = new TalonSRX(0);
+  public static TalonSRX Indexer = new TalonSRX(4);
 
   public static void RunInderxer () {
     Indexer.set(ControlMode.PercentOutput, .2);
