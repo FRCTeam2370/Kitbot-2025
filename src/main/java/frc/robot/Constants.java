@@ -14,7 +14,7 @@ package frc.robot;
  */
 public final class Constants {
   public static class DriveConstansts {
-    public static double DriveSpeed = 0.8;
+    public static double DriveSpeed = 0.6;
   }
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;

@@ -32,7 +32,7 @@ public class Drive extends SubsystemBase {
     LeftPassenger.setInverted(true);
   }
   
-  public static void Drive (double XSpeed, double Rotation) {
+  public static void drive (double XSpeed, double Rotation) {
     mDrive.arcadeDrive(XSpeed, Rotation);
   } 
 

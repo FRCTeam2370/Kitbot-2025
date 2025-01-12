@@ -33,7 +33,7 @@ public class DriveController extends Command {
   public void execute() {
     double idontknowxvalorsomething = XSpeed.getAsDouble() * Constants.DriveConstansts.DriveSpeed;
     double rotationval = Rotation.getAsDouble() * Constants.DriveConstansts.DriveSpeed;
-    Drive.Drive(idontknowxvalorsomething, rotationval);
+    Drive.drive(idontknowxvalorsomething, rotationval);
   }
 
   // Called once the command ends or is interrupted.
