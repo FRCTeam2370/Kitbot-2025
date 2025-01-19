@@ -6,7 +6,14 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.pathplanner.lib.auto.AutoBuilder;
 
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.math.kinematics.Kinematics;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
@@ -24,6 +31,17 @@ public class Drive extends SubsystemBase {
   public Drive() {
     ConfigureDrive();
   }
+
+  DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(27.0)); 
+
+  ChassisSpeeds chassisSpeeds = new ChassisSpeeds(2.0, 0, 1.0);
+
+  DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.toWheelSpeeds(chassisSpeeds);
+
+  double leftVeocity = wheelSpeeds.leftMetersPerSecond;
+
+  double rightVelocity = wheelSpeeds.rightMetersPerSecond;
+
 
   private static void ConfigureDrive () {
     RightPassenger.follow(RightDriver);
