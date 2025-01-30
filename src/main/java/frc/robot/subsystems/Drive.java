@@ -6,14 +6,18 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix6.hardware.Pigeon2;
 import com.pathplanner.lib.auto.AutoBuilder;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.kinematics.Kinematics;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
@@ -26,22 +30,27 @@ public class Drive extends SubsystemBase {
   public static WPI_TalonSRX LeftPassenger = new WPI_TalonSRX(3);
 
   private static DifferentialDrive mDrive = new DifferentialDrive(LeftDriver, RightDriver);
+  public static Pigeon2 mPigeoon = new Pigeon2(1);
+  public static Encoder leftEncoder = new Encoder(0, (Integer) null);
+  public static Encoder rightEncoder = new Encoder(1, (Integer) null);
+  private static Pose2d pose2d = new Pose2d();
+
+  DifferentialDriveOdometry m_Odometry = new DifferentialDriveOdometry(mPigeoon.getRotation2d(), rightEncoder.getDistance(), leftEncoder.getDistance(), new Pose2d(0,0, new Rotation2d()));
+
+  DifferentialDriveKinematics mkinematics = new DifferentialDriveKinematics(Units.inchesToMeters(24));
+
+  DifferentialDriveWheelSpeeds wheelSpeeds = new DifferentialDriveWheelSpeeds(2.0,2.0);
+
+  ChassisSpeeds chassisSpeeds = mkinematics.toChassisSpeeds(wheelSpeeds);
+
+  double linearVelocity = chassisSpeeds.vxMetersPerSecond;
+
+  double angularVelocity = chassisSpeeds.omegaRadiansPerSecond;
 
   /** Creates a new Drive. */
   public Drive() {
     ConfigureDrive();
   }
-
-  DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Units.inchesToMeters(27.0)); 
-
-  ChassisSpeeds chassisSpeeds = new ChassisSpeeds(2.0, 0, 1.0);
-
-  DifferentialDriveWheelSpeeds wheelSpeeds = kinematics.toWheelSpeeds(chassisSpeeds);
-
-  double leftVeocity = wheelSpeeds.leftMetersPerSecond;
-
-  double rightVelocity = wheelSpeeds.rightMetersPerSecond;
-
 
   private static void ConfigureDrive () {
     RightPassenger.follow(RightDriver);
@@ -57,5 +66,7 @@ public class Drive extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    var gyroAngle = mPigeoon.getRotation2d();
+    pose2d = m_Odometry.update(gyroAngle, leftEncoder.getDistance(), rightEncoder.getDistance());
   }
 }
